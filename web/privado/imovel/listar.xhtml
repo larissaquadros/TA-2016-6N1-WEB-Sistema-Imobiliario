@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="titulo">Manutenção de Pessoas Fisica</ui:define>
+        <ui:define name="conteudo">
+            <h:form id="formListagem" prependId="false">
+                <p:growl/>
+                <p:commandButton actionListener="#{controleImovel.novo()}" value="Novo Imóvel"
+                                 icon="ui-icon-plus"
+                                 oncomplete="PF('dlg').show();"
+                                 update=":formEdicao"/>
+                <p:dataTable value="#{controleImovel.dao.listarTodos}"
+                             var="obj">
+                    <f:facet name="header">
+                        <p:outputLabel value="Listagem de Imóveis"/>
+                    </f:facet>
+                    <f:facet name="footer">
+                        <p:outputLabel value="Total de registros: #{controleImovel.dao.listarTodos.size()}"/>
+                    </f:facet>
+                    <p:column headerText="ID">
+                        <p:outputLabel value="#{obj.id}"/>
+                    </p:column>
+                    <p:column headerText="Cidade">
+                        <p:outputLabel value="#{obj.cidade.nome}"/>
+                    </p:column>  
+                    <p:column headerText="Endereço">
+                        <p:outputLabel value="#{obj.endereco}"/>
+                    </p:column>
+                    <p:column headerText="Ações">
+                        <div align="center">
+                            <p:commandButton actionListener="#{controleImovel.editar(obj.id)}"
+                                             icon="ui-icon-pencil"
+                                             update=":formEdicao"
+                                             process="@form"
+                                             oncomplete="PF('dlg').show();"
+                                             id="btnAlterar"/>
+                            <p:commandButton actionListener="#{controleImovel.remover(obj.id)}"
+                                             icon="ui-icon-trash"
+                                             update="@form"
+                                             process="@form"
+                                             id="btnExcluir"
+                                             onclick="if(!confirm('Confirma a exclusão do objeto'))
+                                                            return false"/>
+                        </div>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            
+        </ui:define>
+        
+        <ui:define name="dialogos">
+            <p:dialog widgetVar="dlg" header="Edição"
+                      resizable="false" modal="true">
+                <h:form id="formEdicao" prependId="false">
+                    <p:growl/>
+                    <div align="center">
+                        <p:panelGrid columns="2">
+                            <f:facet name="footer">
+                                <div align="center">
+                                    <p:commandButton value="Salvar"
+                                                     icon="ui-icon-disk"
+                                                     actionListener="#{controleImovel.salvar()}"
+                                                     update=":formEdicao :formListagem"
+                                    oncomplete="if(!args.validationFailed){PF('dlg').hide();}"/>
+                                </div>
+                            </f:facet>
+                            <p:outputLabel value="ID"/>
+                            <p:inputText value="#{controleImovel.objeto.id}"
+                                         size="5" readonly="true"/>
+                            
+                            <p:outputLabel value="Condominio" for="selectCondominio"/>
+                            <p:selectOneMenu value="#{controleImovel.objeto.condominio}"
+                                             id="selectCondominio">
+                                <f:converter converterId="converterCondominio"/>
+                                <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
+                                <f:selectItems value="#{controleImovel.dao.listarCondominios}"
+                                               var="c" itemLabel="#{c.nome}"/>
+                            </p:selectOneMenu>
+                            
+                            <p:outputLabel value="Proprietario" for="selectProprietario"/>
+                            <p:selectOneMenu value="#{controleImovel.objeto.proprietario}"
+                                             id="selectProprietario">
+                                <f:converter converterId="converterPessoaFisica"/>
+                                <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
+                                <f:selectItems value="#{controleImovel.dao.listarPessoasFiscas}"
+                                               var="p" itemLabel="#{p.nome}"/>
+                            </p:selectOneMenu>
+                                                       
+                            <p:outputLabel value="Cidade" for="selectCidade"/>
+                            <p:selectOneMenu value="#{controleImovel.objeto.cidade}"
+                                             id="selectCidade">
+                                <f:converter converterId="converterCidade"/>
+                                <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
+                                <f:selectItems value="#{controleImovel.dao.listarCidades}"
+                                               var="e" itemLabel="#{e.nome}"/>
+                            </p:selectOneMenu>
+                            
+                            <p:outputLabel value="Endereço" for="txtEndereco"/>
+                            <p:inputText value="#{controleImovel.objeto.endereco}"
+                                         size="50" maxlength="50" id="txtEndereco"/>
+                            
+                            <p:outputLabel value="Bairro" for="txtBairro"/>
+                            <p:inputText value="#{controleImovel.objeto.bairro}"
+                                         size="50" maxlength="50" id="txtBairro"/>
+                            
+                            <p:outputLabel value="Número" for="txtNumero"/>
+                            <p:inputText value="#{controleImovel.objeto.numero}"
+                                         size="15" maxlength="15" id="txtNumero"/>
+                            
+                            <p:outputLabel value="Complemento" for="txtComplemento"/>
+                            <p:inputText value="#{controleImovel.objeto.complemento}"
+                                         size="50" maxlength="50" id="txtComplemento"/>
+                            
+                                       
+                        </p:panelGrid>
+                    </div>
+                </h:form>
+            </p:dialog>
+        </ui:define>
+    </ui:composition>
+</html>
+
