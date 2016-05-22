@@ -7,55 +7,17 @@ package br.edu.ifsul.dao;
 
 import br.edu.ifsul.modelo.Caracteristica;
 import java.io.Serializable;
-import java.util.List;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.ejb.Stateful;
 
 /**
  *
  * @author Larissa
  */
-@Stateless
-public class CaracteristicaDAO implements Serializable{
-    @PersistenceContext(unitName = "TA-2016-6N1-WEB-Sistema-ImobiliarioPU")
-    private EntityManager em;
-    private List<Caracteristica> listarTodos;
-
+@Stateful
+public class CaracteristicaDAO<T> extends DAOGenerico<Caracteristica> implements Serializable{
+    
     public CaracteristicaDAO(){
-        
-    }
-    
-    public void persist(Caracteristica obj) throws Exception {
-        em.persist(obj);
-    }
-    
-    public void merge(Caracteristica obj) throws Exception {
-        em.merge(obj);
-    }
-    
-    public void remove(Caracteristica obj) throws Exception {
-        obj = em.merge(obj);
-        em.remove(obj);
-    }
-    
-    public Caracteristica getObjectById(Integer id) throws Exception {
-        return  em.find(Caracteristica.class, id);
-    }
-    
-    public EntityManager getEm() {
-        return em;
-    }
-
-    public void setEm(EntityManager em) {
-        this.em = em;
-    }
-
-    public List<Caracteristica> getListarTodos() {
-        return em.createQuery("from Caracteristica order by nome").getResultList();
-    }
-
-    public void setListarTodos(List<Caracteristica> listarTodos) {
-        this.listarTodos = listarTodos;
+        super();
+        super.setClassePersistente(Caracteristica.class);
     }
 }

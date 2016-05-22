@@ -10,17 +10,45 @@
         <ui:define name="conteudo">
             <h:form id="formListagem" prependId="false">
                 <p:growl/>
-                <p:commandButton actionListener="#{controleCaracteristica.novo()}" value="Novo Caracteristica"
+                <p:commandButton actionListener="#{controleCaracteristica.novo()}" value="Nova Caracteristica"
                                  icon="ui-icon-plus"
                                  oncomplete="PF('dlg').show();"
                                  update=":formEdicao"/>
-                <p:dataTable value="#{controleCaracteristica.dao.listarTodos}"
-                             var="obj">
+               <div align="center">
+                    <p:panelGrid columns="11">
+                        <p:outputLabel value="Ordem:"/>
+                        <p:selectOneMenu id="ordem" value="#{controleCaracteristica.dao.ordem}">
+                            <f:selectItem itemLabel="ID" itemValue="id"/>
+                            <f:selectItem itemLabel="Nome" itemValue="nome"/>
+                            <p:ajax update="listagem"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Filtro:"/>
+                        <p:inputText value="#{controleCaracteristica.dao.filtro}">
+                            <p:ajax event="keyup" update="listagem"/>
+                        </p:inputText>
+                        <p:commandButton value="Filtrar" update="listagem"/>
+                        <p:outputLabel value="Maximo de objetos"/>
+                        <p:inputText value="#{controleCaracteristica.dao.maximoObjetos}" size="3">
+                            <p:ajax event="keyup" update="listagem"/>
+                        </p:inputText>
+                        <p:commandButton value="Primeiro" actionListener="#{controleCaracteristica.dao.primeiro()}"
+                                         update="listagem"/>
+                        <p:commandButton value="Anterior" actionListener="#{controleCaracteristica.dao.anterior()}"
+                                         update="listagem"/>                        
+                        <p:commandButton value="Proximo" actionListener="#{controleCaracteristica.dao.proximo()}"
+                                         update="listagem"/>                        
+                        <p:commandButton value="Ultimo" actionListener="#{controleCaracteristica.dao.ultimo()}"
+                                         update="listagem"/>                        
+                        
+                    </p:panelGrid>
+                </div>
+                <p:dataTable value="#{controleCaracteristica.dao.listaObjetos}"
+                             var="obj" id="listagem">
                     <f:facet name="header">
                         <p:outputLabel value="Listagem de Caracteristicas"/>
                     </f:facet>
                     <f:facet name="footer">
-                        <p:outputLabel value="Total de registros: #{controleCaracteristica.dao.listarTodos.size()}"/>
+                        <p:outputLabel value="#{controleCaracteristica.dao.mensagemNavegacao}"/>
                     </f:facet>
                     <p:column headerText="ID">
                         <p:outputLabel value="#{obj.id}"/>
@@ -41,15 +69,15 @@
                                              update="@form"
                                              process="@form"
                                              id="btnExcluir"
-                                             onclick="if(!confirm('Confirma a exclusão do objeto'))
-                                                            return false"/>
+                                             onclick="if (!confirm('Confirma a exclusão do objeto'))
+                                                         return false"/>
                         </div>
                     </p:column>
                 </p:dataTable>
             </h:form>
-            
+
         </ui:define>
-        
+
         <ui:define name="dialogos">
             <p:dialog widgetVar="dlg" header="Edição"
                       resizable="false" modal="true">
@@ -63,7 +91,7 @@
                                                      icon="ui-icon-disk"
                                                      actionListener="#{controleCaracteristica.salvar()}"
                                                      update=":formEdicao :formListagem"
-                                    oncomplete="if(!args.validationFailed){PF('dlg').hide();}"/>
+                                                     oncomplete="if(!args.validationFailed){PF('dlg').hide();}"/>
                                 </div>
                             </f:facet>
                             <p:outputLabel value="ID"/>

@@ -21,7 +21,7 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class ControlePessoaJuridica implements Serializable{
     @EJB
-    private PessoaJuridicaDAO dao;
+    private PessoaJuridicaDAO<PessoaJuridica> dao;
     private PessoaJuridica objeto;
 
     public ControlePessoaJuridica() {
@@ -66,17 +66,7 @@ public class ControlePessoaJuridica implements Serializable{
             UtilMensagens.mensagemErro("Erro ao remover objeto: "+e.getMessage());
         }
     }
-            
-    
-
-    public PessoaJuridicaDAO getDao() {
-        return dao;
-    }
-
-    public void setDao(PessoaJuridicaDAO dao) {
-        this.dao = dao;
-    }
-
+           
     public PessoaJuridica getObjeto() {
         return objeto;
     }
@@ -84,4 +74,14 @@ public class ControlePessoaJuridica implements Serializable{
     public void setObjeto(PessoaJuridica objeto) {
         this.objeto = objeto;
     }
+
+    public PessoaJuridicaDAO<PessoaJuridica> getDao() {
+        return dao;
+    }
+
+    public void setDao(PessoaJuridicaDAO<PessoaJuridica> dao) {
+        this.dao = dao;
+    }
+    
+    
 }

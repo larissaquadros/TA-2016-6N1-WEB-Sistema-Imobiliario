@@ -10,7 +10,6 @@ import br.edu.ifsul.modelo.Estado;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-
 import javax.faces.bean.ViewScoped;
 
 /**
@@ -21,8 +20,9 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class ControleEstado implements Serializable{
     @EJB
-    private EstadoDAO dao;
+    private EstadoDAO<Estado> dao;
     private Estado objeto;
+ 
 
     public ControleEstado() {
 
@@ -84,4 +84,5 @@ public class ControleEstado implements Serializable{
     public void setObjeto(Estado objeto) {
         this.objeto = objeto;
     }
+
 }

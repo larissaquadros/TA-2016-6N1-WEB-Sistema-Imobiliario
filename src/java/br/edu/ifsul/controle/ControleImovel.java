@@ -21,7 +21,7 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class ControleImovel implements Serializable{
     @EJB
-    private ImovelDAO dao;
+    private ImovelDAO<Imovel> dao;
     private Imovel objeto;
 
     public ControleImovel() {
@@ -67,16 +67,6 @@ public class ControleImovel implements Serializable{
         }
     }
             
-    
-
-    public ImovelDAO getDao() {
-        return dao;
-    }
-
-    public void setDao(ImovelDAO dao) {
-        this.dao = dao;
-    }
-
     public Imovel getObjeto() {
         return objeto;
     }
@@ -84,4 +74,14 @@ public class ControleImovel implements Serializable{
     public void setObjeto(Imovel objeto) {
         this.objeto = objeto;
     }
+
+    public ImovelDAO<Imovel> getDao() {
+        return dao;
+    }
+
+    public void setDao(ImovelDAO<Imovel> dao) {
+        this.dao = dao;
+    }
+    
+    
 }

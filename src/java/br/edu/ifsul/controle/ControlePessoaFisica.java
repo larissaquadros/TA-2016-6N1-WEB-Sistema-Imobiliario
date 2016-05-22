@@ -21,7 +21,7 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class ControlePessoaFisica implements Serializable{
     @EJB
-    private PessoaFisicaDAO dao;
+    private PessoaFisicaDAO<PessoaFisica> dao;
     private PessoaFisica objeto;
 
     public ControlePessoaFisica() {
@@ -67,16 +67,6 @@ public class ControlePessoaFisica implements Serializable{
         }
     }
             
-    
-
-    public PessoaFisicaDAO getDao() {
-        return dao;
-    }
-
-    public void setDao(PessoaFisicaDAO dao) {
-        this.dao = dao;
-    }
-
     public PessoaFisica getObjeto() {
         return objeto;
     }
@@ -84,4 +74,14 @@ public class ControlePessoaFisica implements Serializable{
     public void setObjeto(PessoaFisica objeto) {
         this.objeto = objeto;
     }
+
+    public PessoaFisicaDAO<PessoaFisica> getDao() {
+        return dao;
+    }
+
+    public void setDao(PessoaFisicaDAO<PessoaFisica> dao) {
+        this.dao = dao;
+    }
+    
+    
 }

@@ -21,7 +21,7 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class ControleContrato implements Serializable{
     @EJB
-    private ContratoDAO dao;
+    private ContratoDAO<Contrato> dao;
     private Contrato objeto;
 
     public ControleContrato() {
@@ -67,16 +67,6 @@ public class ControleContrato implements Serializable{
         }
     }
             
-    
-
-    public ContratoDAO getDao() {
-        return dao;
-    }
-
-    public void setDao(ContratoDAO dao) {
-        this.dao = dao;
-    }
-
     public Contrato getObjeto() {
         return objeto;
     }
@@ -84,4 +74,14 @@ public class ControleContrato implements Serializable{
     public void setObjeto(Contrato objeto) {
         this.objeto = objeto;
     }
+
+    public ContratoDAO<Contrato> getDao() {
+        return dao;
+    }
+
+    public void setDao(ContratoDAO<Contrato> dao) {
+        this.dao = dao;
+    }
+    
+    
 }

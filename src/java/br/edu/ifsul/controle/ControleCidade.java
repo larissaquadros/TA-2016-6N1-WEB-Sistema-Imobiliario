@@ -21,7 +21,7 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class ControleCidade implements Serializable{
     @EJB
-    private CidadeDAO dao;
+    private CidadeDAO<Cidade> dao;
     private Cidade objeto;
 
     public ControleCidade() {
@@ -67,21 +67,19 @@ public class ControleCidade implements Serializable{
         }
     }
             
-    
-
-    public CidadeDAO getDao() {
-        return dao;
-    }
-
-    public void setDao(CidadeDAO dao) {
-        this.dao = dao;
-    }
-
     public Cidade getObjeto() {
         return objeto;
     }
 
     public void setObjeto(Cidade objeto) {
         this.objeto = objeto;
+    }
+
+    public CidadeDAO<Cidade> getDao() {
+        return dao;
+    }
+
+    public void setDao(CidadeDAO<Cidade> dao) {
+        this.dao = dao;
     }
 }

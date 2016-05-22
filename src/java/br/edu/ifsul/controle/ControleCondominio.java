@@ -21,7 +21,7 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class ControleCondominio implements Serializable{
     @EJB
-    private CondominioDAO dao;
+    private CondominioDAO<Condominio> dao;
     private Condominio objeto;
 
     public ControleCondominio() {
@@ -68,20 +68,19 @@ public class ControleCondominio implements Serializable{
     }
             
     
-
-    public CondominioDAO getDao() {
-        return dao;
-    }
-
-    public void setDao(CondominioDAO dao) {
-        this.dao = dao;
-    }
-
     public Condominio getObjeto() {
         return objeto;
     }
 
     public void setObjeto(Condominio objeto) {
         this.objeto = objeto;
+    }
+
+    public CondominioDAO<Condominio> getDao() {
+        return dao;
+    }
+
+    public void setDao(CondominioDAO<Condominio> dao) {
+        this.dao = dao;
     }
 }

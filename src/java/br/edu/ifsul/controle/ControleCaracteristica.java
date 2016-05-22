@@ -10,7 +10,6 @@ import br.edu.ifsul.modelo.Caracteristica;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-
 import javax.faces.bean.ViewScoped;
 
 /**
@@ -19,12 +18,13 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean(name = "controleCaracteristica")
 @ViewScoped
-public class ControleCaracteristicas implements Serializable{
+public class ControleCaracteristica implements Serializable{
     @EJB
-    private CaracteristicaDAO dao;
+    private CaracteristicaDAO<Caracteristica> dao;
     private Caracteristica objeto;
+ 
 
-    public ControleCaracteristicas() {
+    public ControleCaracteristica() {
 
     }
     
@@ -84,4 +84,5 @@ public class ControleCaracteristicas implements Serializable{
     public void setObjeto(Caracteristica objeto) {
         this.objeto = objeto;
     }
+
 }
