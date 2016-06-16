@@ -14,13 +14,40 @@
                                  icon="ui-icon-plus"
                                  oncomplete="PF('dlg').show();"
                                  update=":formEdicao"/>
-                <p:dataTable value="#{controleContrato.dao.listarTodos}"
-                             var="obj">
+                <div align="center">
+                    <p:panelGrid columns="11">
+                        <p:outputLabel value="Ordem:"/>
+                        <p:selectOneMenu id="ordem" value="#{controleContrato.dao.ordem}">
+                            <f:selectItem itemLabel="ID" itemValue="id"/>
+                            <f:selectItem itemLabel="Nome" itemValue="nome"/>
+                            <p:ajax update="listagem"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Filtro:"/>
+                        <p:inputText value="#{controleContrato.dao.filtro}">
+                            <p:ajax event="keyup" update="listagem"/>
+                        </p:inputText>
+                        <p:commandButton value="Filtrar" update="listagem"/>
+                        <p:outputLabel value="Maximo de objetos"/>
+                        <p:inputText value="#{controleContrato.dao.maximoObjetos}" size="3">
+                            <p:ajax event="keyup" update="listagem"/>
+                        </p:inputText>
+                        <p:commandButton value="Primeiro" actionListener="#{controleContrato.dao.primeiro()}"
+                                         update="listagem"/>
+                        <p:commandButton value="Anterior" actionListener="#{controleContrato.dao.anterior()}"
+                                         update="listagem"/>                        
+                        <p:commandButton value="Proximo" actionListener="#{controleContrato.dao.proximo()}"
+                                         update="listagem"/>                        
+                        <p:commandButton value="Ultimo" actionListener="#{controleContrato.dao.ultimo()}"
+                                         update="listagem"/>                      
+                    </p:panelGrid>
+                </div>
+                <p:dataTable value="#{controleContrato.dao.listaObjetos}"
+                             var="obj" id="listagem">
                     <f:facet name="header">
                         <p:outputLabel value="Listagem de Contratos"/>
                     </f:facet>
                     <f:facet name="footer">
-                        <p:outputLabel value="Total de registros: #{controleContrato.dao.listarTodos.size()}"/>
+                        <p:outputLabel value="#{controleContrato.dao.mensagemNavegacao}"/>
                     </f:facet>
                     <p:column headerText="ID">
                         <p:outputLabel value="#{obj.id}"/>
@@ -53,7 +80,6 @@
                     </p:column>
                 </p:dataTable>
             </h:form>
-
         </ui:define>
 
         <ui:define name="dialogos">
@@ -79,9 +105,9 @@
                             <p:outputLabel value="Locatário" for="selectLocatario"/>
                             <p:selectOneMenu value="#{controleContrato.objeto.pessoa}"
                                              id="selectLocatario">
-                                <f:converter converterId="converterPessoaFisica"/>
+                                <f:converter converterId="converterPessoa"/>
                                 <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
-                                <f:selectItems value="#{controleContrato.dao.listarPessoasFisicas}"
+                                <f:selectItems value="#{controleContrato.daoPessoa.listaTodos}"
                                                var="p" itemLabel="#{p.nome}"/>
                             </p:selectOneMenu>
 
@@ -90,7 +116,7 @@
                                              id="selectImovel">
                                 <f:converter converterId="converterImovel"/>
                                 <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
-                                <f:selectItems value="#{controleContrato.dao.listarImovel}"
+                                <f:selectItems value="#{controleContrato.daoImovel.listaTodos}"
                                                var="i" itemLabel="#{i.id}"/>
                             </p:selectOneMenu>
                             
@@ -122,8 +148,6 @@
                             <p:outputLabel value="Valor aluguel" for="txtValor"/>
                             <p:inputText value="#{controleContrato.objeto.aluguel}"
                                          size="15" maxlength="15" id="txtValor"/>
-
-
                         </p:panelGrid>
                     </div>
                 </h:form>

@@ -5,7 +5,9 @@
  */
 package br.edu.ifsul.controle;
 
+import br.edu.ifsul.dao.CidadeDAO;
 import br.edu.ifsul.dao.CondominioDAO;
+import br.edu.ifsul.modelo.Cidade;
 import br.edu.ifsul.modelo.Condominio;
 import java.io.Serializable;
 import javax.ejb.EJB;
@@ -23,6 +25,9 @@ public class ControleCondominio implements Serializable{
     @EJB
     private CondominioDAO<Condominio> dao;
     private Condominio objeto;
+    
+    @EJB
+    private CidadeDAO<Cidade> doaCidade;
 
     public ControleCondominio() {
 
@@ -83,4 +88,14 @@ public class ControleCondominio implements Serializable{
     public void setDao(CondominioDAO<Condominio> dao) {
         this.dao = dao;
     }
+
+    public CidadeDAO<Cidade> getDoaCidade() {
+        return doaCidade;
+    }
+
+    public void setDoaCidade(CidadeDAO<Cidade> doaCidade) {
+        this.doaCidade = doaCidade;
+    }
+    
+    
 }

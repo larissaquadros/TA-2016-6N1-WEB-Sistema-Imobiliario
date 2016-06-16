@@ -14,13 +14,41 @@
                                  icon="ui-icon-plus"
                                  oncomplete="PF('dlg').show();"
                                  update=":formEdicao"/>
-                <p:dataTable value="#{controleCidade.dao.listarTodos}"
-                             var="obj">
+                <div align="center">
+                    <p:panelGrid columns="11">
+                        <p:outputLabel value="Ordem:"/>
+                        <p:selectOneMenu id="ordem" value="#{controleCidade.dao.ordem}">
+                            <f:selectItem itemLabel="ID" itemValue="id"/>
+                            <f:selectItem itemLabel="Nome" itemValue="nome"/>
+                            <p:ajax update="listagem"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Filtro:"/>
+                        <p:inputText value="#{controleCidade.dao.filtro}">
+                            <p:ajax event="keyup" update="listagem"/>
+                        </p:inputText>
+                        <p:commandButton value="Filtrar" update="listagem"/>
+                        <p:outputLabel value="Maximo de objetos"/>
+                        <p:inputText value="#{controleCidade.dao.maximoObjetos}" size="3">
+                            <p:ajax event="keyup" update="listagem"/>
+                        </p:inputText>
+                        <p:commandButton value="Primeiro" actionListener="#{controleCidade.dao.primeiro()}"
+                                         update="listagem"/>
+                        <p:commandButton value="Anterior" actionListener="#{controleCidade.dao.anterior()}"
+                                         update="listagem"/>                        
+                        <p:commandButton value="Proximo" actionListener="#{controleCidade.dao.proximo()}"
+                                         update="listagem"/>                        
+                        <p:commandButton value="Ultimo" actionListener="#{controleCidade.dao.ultimo()}"
+                                         update="listagem"/>                        
+                        
+                    </p:panelGrid>
+                </div>
+                <p:dataTable value="#{controleCidade.dao.listaObjetos}"
+                             var="obj" id="listagem">
                     <f:facet name="header">
                         <p:outputLabel value="Listagem de Cidades"/>
                     </f:facet>
                     <f:facet name="footer">
-                        <p:outputLabel value="Total de registros: #{controleCidade.dao.listarTodos.size()}"/>
+                        <p:outputLabel value="#{controleCidade.dao.mensagemNavegacao}"/>
                     </f:facet>
                     <p:column headerText="ID">
                         <p:outputLabel value="#{obj.id}"/>
@@ -80,7 +108,7 @@
                                              id="selectEstado">
                                 <f:converter converterId="converterEstado"/>
                                 <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
-                                <f:selectItems value="#{controleCidade.dao.listarEstados}"
+                                <f:selectItems value="#{controleCidade.daoEstado.listaTodos}"
                                                var="e" itemLabel="#{e.nome}"/>
                             </p:selectOneMenu>
                             

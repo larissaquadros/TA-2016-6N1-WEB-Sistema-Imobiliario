@@ -6,7 +6,11 @@
 package br.edu.ifsul.controle;
 
 import br.edu.ifsul.dao.ContratoDAO;
+import br.edu.ifsul.dao.ImovelDAO;
+import br.edu.ifsul.dao.PessoaDAO;
 import br.edu.ifsul.modelo.Contrato;
+import br.edu.ifsul.modelo.Imovel;
+import br.edu.ifsul.modelo.Pessoa;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -24,6 +28,13 @@ public class ControleContrato implements Serializable{
     private ContratoDAO<Contrato> dao;
     private Contrato objeto;
 
+    @EJB
+    private PessoaDAO<Pessoa> daoPessoa;
+    
+    @EJB
+    private ImovelDAO<Imovel> daoImovel;
+    
+    
     public ControleContrato() {
 
     }
@@ -82,6 +93,24 @@ public class ControleContrato implements Serializable{
     public void setDao(ContratoDAO<Contrato> dao) {
         this.dao = dao;
     }
+
+    public PessoaDAO<Pessoa> getDaoPessoa() {
+        return daoPessoa;
+    }
+
+    public void setDaoPessoa(PessoaDAO<Pessoa> daoPessoa) {
+        this.daoPessoa = daoPessoa;
+    }
+
+    public ImovelDAO<Imovel> getDaoImovel() {
+        return daoImovel;
+    }
+
+    public void setDaoImovel(ImovelDAO<Imovel> daoImovel) {
+        this.daoImovel = daoImovel;
+    }
+    
+    
     
     
 }

@@ -41,8 +41,17 @@
                                         ajax="false"/>
                          <p:menuitem action="#{controleContrato.listar()}"
                                         value="Manutenção de Contrato"
-                                        ajax="false"/>
+                                        ajax="false"/>    
+                         <p:submenu label="Relatórios">
+                            <p:menuitem value="Estados"
+                                        action="#{controleRelatorio.imprimeRelatorioEstados()}"
+                                        ajax="false" target="_blank"/>
+                            <p:menuitem value="Cidades"
+                                        action="#{controleRelatorio.imprimeRelatorioCidades()}"
+                                        ajax="false" target="_blank"/>
+                         </p:submenu>
                     </p:menu>
+                    
                 </h:form>             
             </p:layoutUnit>
             <p:layoutUnit position="center">

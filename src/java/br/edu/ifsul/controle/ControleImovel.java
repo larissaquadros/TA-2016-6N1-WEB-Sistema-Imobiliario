@@ -5,8 +5,14 @@
  */
 package br.edu.ifsul.controle;
 
+import br.edu.ifsul.dao.CidadeDAO;
+import br.edu.ifsul.dao.CondominioDAO;
 import br.edu.ifsul.dao.ImovelDAO;
+import br.edu.ifsul.dao.PessoaDAO;
+import br.edu.ifsul.modelo.Cidade;
+import br.edu.ifsul.modelo.Condominio;
 import br.edu.ifsul.modelo.Imovel;
+import br.edu.ifsul.modelo.Pessoa;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -23,6 +29,15 @@ public class ControleImovel implements Serializable{
     @EJB
     private ImovelDAO<Imovel> dao;
     private Imovel objeto;
+    
+    @EJB
+    private PessoaDAO<Pessoa> daoPessoa;
+    
+    @EJB
+    private CondominioDAO<Condominio> daoCondominio;
+    
+    @EJB
+    private CidadeDAO<Cidade> daoCidade;
 
     public ControleImovel() {
 
@@ -81,6 +96,30 @@ public class ControleImovel implements Serializable{
 
     public void setDao(ImovelDAO<Imovel> dao) {
         this.dao = dao;
+    }
+
+    public PessoaDAO<Pessoa> getDaoPessoa() {
+        return daoPessoa;
+    }
+
+    public void setDaoPessoa(PessoaDAO<Pessoa> daoPessoa) {
+        this.daoPessoa = daoPessoa;
+    }    
+
+    public CondominioDAO<Condominio> getDaoCondominio() {
+        return daoCondominio;
+    }
+
+    public void setDaoCondominio(CondominioDAO<Condominio> daoCondominio) {
+        this.daoCondominio = daoCondominio;
+    }
+
+    public CidadeDAO<Cidade> getDaoCidade() {
+        return daoCidade;
+    }
+
+    public void setDaoCidade(CidadeDAO<Cidade> daoCidade) {
+        this.daoCidade = daoCidade;
     }
     
     

@@ -6,7 +6,9 @@
 package br.edu.ifsul.controle;
 
 import br.edu.ifsul.dao.CidadeDAO;
+import br.edu.ifsul.dao.EstadoDAO;
 import br.edu.ifsul.modelo.Cidade;
+import br.edu.ifsul.modelo.Estado;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -23,6 +25,9 @@ public class ControleCidade implements Serializable{
     @EJB
     private CidadeDAO<Cidade> dao;
     private Cidade objeto;
+    
+    @EJB
+    private EstadoDAO<Estado> daoEstado;
 
     public ControleCidade() {
 
@@ -82,4 +87,14 @@ public class ControleCidade implements Serializable{
     public void setDao(CidadeDAO<Cidade> dao) {
         this.dao = dao;
     }
+
+    public EstadoDAO<Estado> getDaoEstado() {
+        return daoEstado;
+    }
+
+    public void setDaoEstado(EstadoDAO<Estado> daoEstado) {
+        this.daoEstado = daoEstado;
+    }
+    
+    
 }

@@ -6,7 +6,6 @@
 package br.edu.ifsul.dao;
 
 import br.edu.ifsul.modelo.Contrato;
-import br.edu.ifsul.modelo.Estado;
 import java.io.Serializable;
 import javax.ejb.Stateful;
 
@@ -19,6 +18,6 @@ public class ContratoDAO <T> extends DAOGenerico<Contrato> implements Serializab
     
     public ContratoDAO(){
         super();
-        super.setClassePersistente(Estado.class);
+        super.setClassePersistente(Contrato.class);
     }
 }

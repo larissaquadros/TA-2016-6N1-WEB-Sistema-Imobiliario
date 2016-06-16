@@ -5,7 +5,6 @@
  */
 package br.edu.ifsul.dao;
 
-import br.edu.ifsul.modelo.Estado;
 import br.edu.ifsul.modelo.Imovel;
 import java.io.Serializable;
 import javax.ejb.Stateful;
@@ -19,6 +18,6 @@ public class ImovelDAO <T> extends DAOGenerico<Imovel> implements Serializable{
     
     public ImovelDAO(){
         super();
-        super.setClassePersistente(Estado.class);
+        super.setClassePersistente(Imovel.class);
     }
 }

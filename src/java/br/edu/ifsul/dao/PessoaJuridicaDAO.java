@@ -5,7 +5,6 @@
  */
 package br.edu.ifsul.dao;
 
-import br.edu.ifsul.modelo.Estado;
 import br.edu.ifsul.modelo.PessoaJuridica;
 import java.io.Serializable;
 import javax.ejb.Stateful;
@@ -19,6 +18,14 @@ public class PessoaJuridicaDAO <T> extends DAOGenerico<PessoaJuridica> implement
     
     public PessoaJuridicaDAO(){
         super();
-        super.setClassePersistente(Estado.class);
+        super.setClassePersistente(PessoaJuridica.class);
     }
+    
+    @Override
+    public PessoaJuridica getObjectById(Integer id) throws Exception {
+        PessoaJuridica  obj = (PessoaJuridica) super.getEm().find(super.getClassePersistente(), id);
+        obj.getTelefones().size();
+        return obj;
+    } 
+    
 }

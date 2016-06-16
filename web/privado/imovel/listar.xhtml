@@ -14,13 +14,41 @@
                                  icon="ui-icon-plus"
                                  oncomplete="PF('dlg').show();"
                                  update=":formEdicao"/>
-                <p:dataTable value="#{controleImovel.dao.listarTodos}"
-                             var="obj">
+                <div align="center">
+                    <p:panelGrid columns="11">
+                        <p:outputLabel value="Ordem:"/>
+                        <p:selectOneMenu id="ordem" value="#{controleImovel.dao.ordem}">
+                            <f:selectItem itemLabel="ID" itemValue="id"/>
+                            <f:selectItem itemLabel="Nome" itemValue="nome"/>
+                            <p:ajax update="listagem"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Filtro:"/>
+                        <p:inputText value="#{controleImovel.dao.filtro}">
+                            <p:ajax event="keyup" update="listagem"/>
+                        </p:inputText>
+                        <p:commandButton value="Filtrar" update="listagem"/>
+                        <p:outputLabel value="Maximo de objetos"/>
+                        <p:inputText value="#{controleImovel.dao.maximoObjetos}" size="3">
+                            <p:ajax event="keyup" update="listagem"/>
+                        </p:inputText>
+                        <p:commandButton value="Primeiro" actionListener="#{controleImovel.dao.primeiro()}"
+                                         update="listagem"/>
+                        <p:commandButton value="Anterior" actionListener="#{controleImovel.dao.anterior()}"
+                                         update="listagem"/>                        
+                        <p:commandButton value="Proximo" actionListener="#{controleImovel.dao.proximo()}"
+                                         update="listagem"/>                        
+                        <p:commandButton value="Ultimo" actionListener="#{controleImovel.dao.ultimo()}"
+                                         update="listagem"/>                        
+
+                    </p:panelGrid>
+                </div>
+                <p:dataTable value="#{controleImovel.dao.listaObjetos}"
+                             var="obj" id="listagem">
                     <f:facet name="header">
                         <p:outputLabel value="Listagem de Imóveis"/>
                     </f:facet>
                     <f:facet name="footer">
-                        <p:outputLabel value="Total de registros: #{controleImovel.dao.listarTodos.size()}"/>
+                        <p:outputLabel value="#{controleImovel.dao.mensagemNavegacao}"/>
                     </f:facet>
                     <p:column headerText="ID">
                         <p:outputLabel value="#{obj.id}"/>
@@ -30,6 +58,9 @@
                     </p:column>  
                     <p:column headerText="Endereço">
                         <p:outputLabel value="#{obj.endereco}"/>
+                    </p:column>
+                    <p:column headerText="Proprietário">
+                        <p:outputLabel value="#{obj.proprietario.nome}"/>
                     </p:column>
                     <p:column headerText="Ações">
                         <div align="center">
@@ -44,15 +75,15 @@
                                              update="@form"
                                              process="@form"
                                              id="btnExcluir"
-                                             onclick="if(!confirm('Confirma a exclusão do objeto'))
-                                                            return false"/>
+                                             onclick="if (!confirm('Confirma a exclusão do objeto'))
+                                                         return false"/>
                         </div>
                     </p:column>
                 </p:dataTable>
             </h:form>
-            
+
         </ui:define>
-        
+
         <ui:define name="dialogos">
             <p:dialog widgetVar="dlg" header="Edição"
                       resizable="false" modal="true">
@@ -66,57 +97,57 @@
                                                      icon="ui-icon-disk"
                                                      actionListener="#{controleImovel.salvar()}"
                                                      update=":formEdicao :formListagem"
-                                    oncomplete="if(!args.validationFailed){PF('dlg').hide();}"/>
+                                                     oncomplete="if(!args.validationFailed){PF('dlg').hide();}"/>
                                 </div>
                             </f:facet>
                             <p:outputLabel value="ID"/>
                             <p:inputText value="#{controleImovel.objeto.id}"
                                          size="5" readonly="true"/>
-                            
+
                             <p:outputLabel value="Condominio" for="selectCondominio"/>
                             <p:selectOneMenu value="#{controleImovel.objeto.condominio}"
                                              id="selectCondominio">
                                 <f:converter converterId="converterCondominio"/>
                                 <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
-                                <f:selectItems value="#{controleImovel.dao.listarCondominios}"
+                                <f:selectItems value="#{controleImovel.daoCondominio.listaTodos}"
                                                var="c" itemLabel="#{c.nome}"/>
                             </p:selectOneMenu>
-                            
+
                             <p:outputLabel value="Proprietario" for="selectProprietario"/>
                             <p:selectOneMenu value="#{controleImovel.objeto.proprietario}"
                                              id="selectProprietario">
-                                <f:converter converterId="converterPessoaFisica"/>
+                                <f:converter converterId="converterPessoa"/>
                                 <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
-                                <f:selectItems value="#{controleImovel.dao.listarPessoasFiscas}"
+                                <f:selectItems value="#{controleImovel.daoPessoa.listaTodos}"
                                                var="p" itemLabel="#{p.nome}"/>
                             </p:selectOneMenu>
-                                                       
+
                             <p:outputLabel value="Cidade" for="selectCidade"/>
                             <p:selectOneMenu value="#{controleImovel.objeto.cidade}"
                                              id="selectCidade">
                                 <f:converter converterId="converterCidade"/>
                                 <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
-                                <f:selectItems value="#{controleImovel.dao.listarCidades}"
+                                <f:selectItems value="#{controleImovel.daoCidade.listaTodos}"
                                                var="e" itemLabel="#{e.nome}"/>
                             </p:selectOneMenu>
-                            
+
                             <p:outputLabel value="Endereço" for="txtEndereco"/>
                             <p:inputText value="#{controleImovel.objeto.endereco}"
                                          size="50" maxlength="50" id="txtEndereco"/>
-                            
+
                             <p:outputLabel value="Bairro" for="txtBairro"/>
                             <p:inputText value="#{controleImovel.objeto.bairro}"
                                          size="50" maxlength="50" id="txtBairro"/>
-                            
+
                             <p:outputLabel value="Número" for="txtNumero"/>
                             <p:inputText value="#{controleImovel.objeto.numero}"
                                          size="15" maxlength="15" id="txtNumero"/>
-                            
+
                             <p:outputLabel value="Complemento" for="txtComplemento"/>
                             <p:inputText value="#{controleImovel.objeto.complemento}"
                                          size="50" maxlength="50" id="txtComplemento"/>
-                            
-                                       
+
+
                         </p:panelGrid>
                     </div>
                 </h:form>

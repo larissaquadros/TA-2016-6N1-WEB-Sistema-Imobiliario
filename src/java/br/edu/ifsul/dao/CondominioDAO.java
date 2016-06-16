@@ -6,7 +6,6 @@
 package br.edu.ifsul.dao;
 
 import br.edu.ifsul.modelo.Condominio;
-import br.edu.ifsul.modelo.Estado;
 import java.io.Serializable;
 import javax.ejb.Stateful;
 
@@ -19,6 +18,6 @@ public class CondominioDAO <T> extends DAOGenerico<Condominio> implements Serial
     
     public CondominioDAO(){
         super();
-        super.setClassePersistente(Estado.class);
+        super.setClassePersistente(Condominio.class);
     }
 }
