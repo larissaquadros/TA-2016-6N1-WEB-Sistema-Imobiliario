@@ -9,7 +9,7 @@
         <ui:define name="titulo">Manutenção de Pessoas Fisica</ui:define>
         <ui:define name="conteudo">
             <h:form id="formListagem" prependId="false">
-                <p:growl/>
+                <p:growl id="growl"/>
                 <p:commandButton actionListener="#{controleImovel.novo()}" value="Novo Imóvel"
                                  icon="ui-icon-plus"
                                  oncomplete="PF('dlg').show();"
@@ -86,71 +86,132 @@
 
         <ui:define name="dialogos">
             <p:dialog widgetVar="dlg" header="Edição"
-                      resizable="false" modal="true">
+                      resizable="false" modal="true" width="700">
                 <h:form id="formEdicao" prependId="false">
                     <p:growl/>
-                    <div align="center">
-                        <p:panelGrid columns="2">
-                            <f:facet name="footer">
-                                <div align="center">
-                                    <p:commandButton value="Salvar"
-                                                     icon="ui-icon-disk"
-                                                     actionListener="#{controleImovel.salvar()}"
-                                                     update=":formEdicao :formListagem"
-                                                     oncomplete="if(!args.validationFailed){PF('dlg').hide();}"/>
-                                </div>
-                            </f:facet>
-                            <p:outputLabel value="ID"/>
-                            <p:inputText value="#{controleImovel.objeto.id}"
-                                         size="5" readonly="true"/>
+                    <p:tabView id="tab">
+                        <p:tab title="Dados da principais">
+                            <div align="center">
+                                <p:panelGrid columns="2">
+                                    <f:facet name="footer">
+                                        <div align="center">
+                                            <p:commandButton value="Salvar"
+                                                             icon="ui-icon-disk"
+                                                             actionListener="#{controleImovel.salvar()}"
+                                                             update=":formEdicao :formListagem"
+                                                             oncomplete="if(!args.validationFailed){PF('dlg').hide();}"/>
+                                        </div>
+                                    </f:facet>
+                                    <p:outputLabel value="ID"/>
+                                    <p:inputText value="#{controleImovel.objeto.id}"
+                                                 size="5" readonly="true"/>
 
-                            <p:outputLabel value="Condominio" for="selectCondominio"/>
-                            <p:selectOneMenu value="#{controleImovel.objeto.condominio}"
-                                             id="selectCondominio">
-                                <f:converter converterId="converterCondominio"/>
-                                <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
-                                <f:selectItems value="#{controleImovel.daoCondominio.listaTodos}"
-                                               var="c" itemLabel="#{c.nome}"/>
-                            </p:selectOneMenu>
+                                    <p:outputLabel value="Condominio" for="selectCondominio"/>
+                                    <p:selectOneMenu value="#{controleImovel.objeto.condominio}"
+                                                     id="selectCondominio">
+                                        <f:converter converterId="converterCondominio"/>
+                                        <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
+                                        <f:selectItems value="#{controleImovel.daoCondominio.listaTodos}"
+                                                       var="c" itemLabel="#{c.nome}"/>
+                                    </p:selectOneMenu>
 
-                            <p:outputLabel value="Proprietario" for="selectProprietario"/>
-                            <p:selectOneMenu value="#{controleImovel.objeto.proprietario}"
-                                             id="selectProprietario">
-                                <f:converter converterId="converterPessoa"/>
-                                <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
-                                <f:selectItems value="#{controleImovel.daoPessoa.listaTodos}"
-                                               var="p" itemLabel="#{p.nome}"/>
-                            </p:selectOneMenu>
+                                    <p:outputLabel value="Proprietario" for="selectProprietario"/>
+                                    <p:selectOneMenu value="#{controleImovel.objeto.proprietario}"
+                                                     id="selectProprietario">
+                                        <f:converter converterId="converterPessoa"/>
+                                        <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
+                                        <f:selectItems value="#{controleImovel.daoPessoa.listaTodos}"
+                                                       var="p" itemLabel="#{p.nome}"/>
+                                    </p:selectOneMenu>
 
-                            <p:outputLabel value="Cidade" for="selectCidade"/>
-                            <p:selectOneMenu value="#{controleImovel.objeto.cidade}"
-                                             id="selectCidade">
-                                <f:converter converterId="converterCidade"/>
-                                <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
-                                <f:selectItems value="#{controleImovel.daoCidade.listaTodos}"
-                                               var="e" itemLabel="#{e.nome}"/>
-                            </p:selectOneMenu>
+                                    <p:outputLabel value="Cidade" for="selectCidade"/>
+                                    <p:selectOneMenu value="#{controleImovel.objeto.cidade}"
+                                                     id="selectCidade">
+                                        <f:converter converterId="converterCidade"/>
+                                        <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
+                                        <f:selectItems value="#{controleImovel.daoCidade.listaTodos}"
+                                                       var="e" itemLabel="#{e.nome}"/>
+                                    </p:selectOneMenu>
 
-                            <p:outputLabel value="Endereço" for="txtEndereco"/>
-                            <p:inputText value="#{controleImovel.objeto.endereco}"
-                                         size="50" maxlength="50" id="txtEndereco"/>
+                                    <p:outputLabel value="Endereço" for="txtEndereco"/>
+                                    <p:inputText value="#{controleImovel.objeto.endereco}"
+                                                 size="50" maxlength="50" id="txtEndereco"/>
 
-                            <p:outputLabel value="Bairro" for="txtBairro"/>
-                            <p:inputText value="#{controleImovel.objeto.bairro}"
-                                         size="50" maxlength="50" id="txtBairro"/>
+                                    <p:outputLabel value="Bairro" for="txtBairro"/>
+                                    <p:inputText value="#{controleImovel.objeto.bairro}"
+                                                 size="50" maxlength="50" id="txtBairro"/>
 
-                            <p:outputLabel value="Número" for="txtNumero"/>
-                            <p:inputText value="#{controleImovel.objeto.numero}"
-                                         size="15" maxlength="15" id="txtNumero"/>
+                                    <p:outputLabel value="Número" for="txtNumero"/>
+                                    <p:inputText value="#{controleImovel.objeto.numero}"
+                                                 size="15" maxlength="15" id="txtNumero"/>
 
-                            <p:outputLabel value="Complemento" for="txtComplemento"/>
-                            <p:inputText value="#{controleImovel.objeto.complemento}"
-                                         size="50" maxlength="50" id="txtComplemento"/>
+                                    <p:outputLabel value="Complemento" for="txtComplemento"/>
+                                    <p:inputText value="#{controleImovel.objeto.complemento}"
+                                                 size="50" maxlength="50" id="txtComplemento"/>
 
-
-                        </p:panelGrid>
-                    </div>
+                                </p:panelGrid>
+                            </div>
+                        </p:tab>
+                        <p:tab title="Características">
+                            <p:dataTable value="#{controleImovel.objeto.caracteristicas}" var="car"
+                                         rowIndexVar="idx" id="listaCar">
+                                <f:facet name="header">
+                                    <p:commandButton value="Nova característica"
+                                                     actionListener="#{controleImovel.novaCaracteristica()}"
+                                                     update=":formCar"
+                                                     icon="ui-icon-plus"
+                                                     id="btnNovaCar"
+                                                     process="btnNovaCar"
+                                                     oncomplete="PF('dlgCar').show();"/>
+                                </f:facet>
+                                <p:column headerText="ID">
+                                    <p:outputLabel value="#{car.id}"/>
+                                </p:column>
+                                <p:column headerText="Caracteristica">
+                                    <p:outputLabel value="#{car.nome}"/>
+                                </p:column>
+                                <p:column headerText="Ações">
+                                    <div align="center">
+                                        <p:commandButton id="btnRemoverCar"
+                                                         icon="ui-icon-trash"
+                                                         actionListener="#{controleImovel.removerCaracteristica(index)}"
+                                                         process="btnRemoverCar"
+                                                         update="listaCar "
+                                                         onclick="if (!confirm('Confirma a exclusão da caracteristica?'))
+                                                                     return false" />
+                                    </div>
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab>
+                    </p:tabView>
                 </h:form>
+            </p:dialog>
+            <p:dialog widgetVar="dlgCar" header="Seleção de Caracteristicas" resizable="false" modal="true">
+                <h:form id="formCar">
+                    <p:growl/>
+                    <p:panelGrid columns="2">
+                        <f:facet name="footer">
+                            <div align="center">
+                                <p:commandButton id="btnAdicionarCaracteristica"
+                                                 value="Salvar" icon="ui-icon-disk"
+                                                 actionListener="#{controleImovel.savarCaracteristica()}"
+                                                 update=":formEdicao:tab:listaCar :formCar"
+                                                 process="@form"
+                                                 oncomplete="if(!args.validationFailed){PF('dlgCar').hide();}"/>
+                            </div>
+                        </f:facet>
+                        
+                       <p:outputLabel value="Caracteristica" for="selectCaracteristica"/>
+                                <p:selectOneMenu value="#{controleImovel.caracteristica}"
+                                                     id="selectCaracteristica">
+                                        <f:converter converterId="converterCaracteristica"/>
+                                        <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
+                                        <f:selectItems value="#{controleImovel.daoCaracteristica.listaTodos}"
+                                                       var="c" itemLabel="#{c.nome}"/>
+                                    </p:selectOneMenu>
+                    </p:panelGrid>
+                </h:form>
+                <ui:include src="/templates/ajaxstatus.xhtml"/>
             </p:dialog>
         </ui:define>
     </ui:composition>

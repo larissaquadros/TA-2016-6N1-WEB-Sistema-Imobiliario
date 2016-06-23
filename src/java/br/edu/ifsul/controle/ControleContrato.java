@@ -8,6 +8,7 @@ package br.edu.ifsul.controle;
 import br.edu.ifsul.dao.ContratoDAO;
 import br.edu.ifsul.dao.ImovelDAO;
 import br.edu.ifsul.dao.PessoaDAO;
+import br.edu.ifsul.modelo.CobrancaAluguel;
 import br.edu.ifsul.modelo.Contrato;
 import br.edu.ifsul.modelo.Imovel;
 import br.edu.ifsul.modelo.Pessoa;
@@ -110,7 +111,23 @@ public class ControleContrato implements Serializable{
         this.daoImovel = daoImovel;
     }
     
-    
+    public void gerarCobrancas() {
+        boolean temPagamento = false;
+        for (CobrancaAluguel p : objeto.getListaCobrancas()) {
+            if (p.getDataPagamento() != null || p.getValorPagamento() != null) {
+                temPagamento = true;
+            }
+        }
+        if (!temPagamento) {
+            objeto.getListaCobrancas().clear();
+            objeto.gerarCobrancas();
+            UtilMensagens.mensagemInformacao("Cobranças geradas com sucesso!");
+        } else {
+            UtilMensagens.mensagemErro("Cobranças não podem ser geradas novamente "
+                    + "por já existir um pagamento!");
+        }
+
+    }
     
     
 }

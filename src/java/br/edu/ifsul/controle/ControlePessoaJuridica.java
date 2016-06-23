@@ -75,10 +75,7 @@ public class ControlePessoaJuridica implements Serializable{
             UtilMensagens.mensagemErro("Erro ao remover objeto: "+e.getMessage());
         }
     }
-           
-    
-    
-    
+
     public PessoaJuridica getObjeto() {
         return objeto;
     }

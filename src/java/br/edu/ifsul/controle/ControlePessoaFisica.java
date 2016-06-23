@@ -10,7 +10,11 @@ import br.edu.ifsul.dao.PessoaFisicaDAO;
 import br.edu.ifsul.modelo.Cidade;
 import br.edu.ifsul.modelo.PessoaFisica;
 import br.edu.ifsul.modelo.Telefone;
+import br.edu.ifsul.util.UtilRelatorios;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 
@@ -44,6 +48,20 @@ public class ControlePessoaFisica implements Serializable{
     public void novo(){
         objeto = new PessoaFisica();
     }
+    
+    public void imprimir(Integer id) {
+        try {
+            objeto = dao.getObjectById(id);
+            List<PessoaFisica> listaTelefones = new ArrayList<>();
+            listaTelefones.add(objeto);
+            HashMap parametros = new HashMap();
+            parametros.put("listaTelefones",objeto.getTelefones());
+            UtilRelatorios.imprimeRelatorio("relatorioPessoas", parametros, listaTelefones);
+        } catch (Exception e) {
+            UtilMensagens.mensagemErro("Erro: " + e.getMessage());
+        }
+        
+    }  
     
     public void salvar(){
         try {

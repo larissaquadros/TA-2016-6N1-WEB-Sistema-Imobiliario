@@ -7,8 +7,10 @@ package br.edu.ifsul.controle;
 
 import br.edu.ifsul.dao.CidadeDAO;
 import br.edu.ifsul.dao.EstadoDAO;
+import br.edu.ifsul.dao.PessoaFisicaDAO;
 import br.edu.ifsul.modelo.Cidade;
 import br.edu.ifsul.modelo.Estado;
+import br.edu.ifsul.modelo.PessoaFisica;
 import br.edu.ifsul.util.UtilRelatorios;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -28,6 +30,10 @@ public class ControleRelatorios implements Serializable{
     
     @EJB
     private CidadeDAO<Cidade> daoCidade;
+    
+    @EJB
+    private PessoaFisicaDAO<PessoaFisica> daoPessoaFisica;
+            
 
     public ControleRelatorios() {
         
@@ -41,6 +47,11 @@ public class ControleRelatorios implements Serializable{
     public void imprimeRelatorioCidades(){
         HashMap parametros = new HashMap();
         UtilRelatorios.imprimeRelatorio("relatorioCidades", parametros, daoCidade.getListaTodos());
+    }
+    
+    public void imprimeRelatorioPF(){
+        HashMap parametros = new HashMap();
+        UtilRelatorios.imprimeRelatorio("relatorioPessoas", parametros, daoPessoaFisica.getListaTodos());
     }
 
     public EstadoDAO<Estado> getDaoEstado() {
@@ -58,6 +69,15 @@ public class ControleRelatorios implements Serializable{
     public void setDaoCidade(CidadeDAO<Cidade> daoCidade) {
         this.daoCidade = daoCidade;
     }
+
+    public PessoaFisicaDAO<PessoaFisica> getDaoPessoaFisica() {
+        return daoPessoaFisica;
+    }
+
+    public void setDaoPessoaFisica(PessoaFisicaDAO<PessoaFisica> daoPessoaFisica) {
+        this.daoPessoaFisica = daoPessoaFisica;
+    }
+    
     
     
     

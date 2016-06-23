@@ -2,7 +2,7 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="TA-2016-6N1-WEB-Sistema-ImobiliarioPU" transaction-type="JTA">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <jta-data-source>java:app/jdbc/Sistema-Imobiliario-2016-TA</jta-data-source>
+    <jta-data-source>jdbc/Sistema-Imobiliario-2016-TA</jta-data-source>
     <class>br.edu.ifsul.modelo.Caracteristica</class>
     <class>br.edu.ifsul.modelo.Cidade</class>
     <class>br.edu.ifsul.modelo.CobrancaAluguel</class>
@@ -19,6 +19,7 @@
         <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/> 
         <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
         <property name="hibernate.classloading.use_current_tccl_as_parent" value="false"/> 
+         
     </properties>
   </persistence-unit>
 </persistence>

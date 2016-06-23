@@ -5,14 +5,17 @@
  */
 package br.edu.ifsul.controle;
 
+import br.edu.ifsul.dao.CaracteristicaDAO;
 import br.edu.ifsul.dao.CidadeDAO;
 import br.edu.ifsul.dao.CondominioDAO;
 import br.edu.ifsul.dao.ImovelDAO;
 import br.edu.ifsul.dao.PessoaDAO;
+import br.edu.ifsul.modelo.Caracteristica;
 import br.edu.ifsul.modelo.Cidade;
 import br.edu.ifsul.modelo.Condominio;
 import br.edu.ifsul.modelo.Imovel;
 import br.edu.ifsul.modelo.Pessoa;
+import br.edu.ifsul.modelo.Telefone;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -38,6 +41,12 @@ public class ControleImovel implements Serializable{
     
     @EJB
     private CidadeDAO<Cidade> daoCidade;
+    
+    @EJB
+    private CaracteristicaDAO<Caracteristica> daoCaracteristica;
+    private Caracteristica caracteristica;
+    
+    private Boolean novaCaracteristica;
 
     public ControleImovel() {
 
@@ -51,16 +60,18 @@ public class ControleImovel implements Serializable{
         objeto = new Imovel();
     }
     
-    public void salvar(){
-        try {
-            if (objeto.getId() == null){
+    public String salvar(){
+        try{
+            if(objeto.getId() == null){
                 dao.persist(objeto);
-            } else {
+            }else{
                 dao.merge(objeto);
             }
-            UtilMensagens.mensagemInformacao("Objeto persistido com sucesso!");
-        } catch (Exception e){
-            UtilMensagens.mensagemErro("Erro ao persistir objeto: "+e.getMessage());
+            UtilMensagens.mensagemInformacao("Objeto persistido com sucesso");
+            return "listar";
+        } catch( Exception e){
+            UtilMensagens.mensagemInformacao("Erro ao persistir o objeto");
+            return "formulario";
         }
     }
     
@@ -75,6 +86,8 @@ public class ControleImovel implements Serializable{
     public void remover(Integer id){
         try {
             objeto = dao.getObjectById(id);
+            System.out.println("ID" + id);
+            System.out.println("ID obj" + objeto.getId());
             dao.remove(objeto);
             UtilMensagens.mensagemInformacao("Objeto removido com sucesso!");
         } catch (Exception e){
@@ -121,6 +134,46 @@ public class ControleImovel implements Serializable{
     public void setDaoCidade(CidadeDAO<Cidade> daoCidade) {
         this.daoCidade = daoCidade;
     }
+
+    public Caracteristica getCaracteristica() {
+        return caracteristica;
+    }
+
+    public void setCaracteristica(Caracteristica caracteristica) {
+        this.caracteristica = caracteristica;
+    }
+
+    public Boolean getNovaCaracteristica() {
+        return novaCaracteristica;
+    }
+
+    public void setNovaCaracteristica(Boolean novaCaracteristica) {
+        this.novaCaracteristica = novaCaracteristica;
+    }
+
+    public CaracteristicaDAO<Caracteristica> getDaoCaracteristica() {
+        return daoCaracteristica;
+    }
+
+    public void setDaoCaracteristica(CaracteristicaDAO<Caracteristica> daoCaracteristica) {
+        this.daoCaracteristica = daoCaracteristica;
+    }
+
+    public void novaCaracteristica(){
+         setCaracteristica(new Caracteristica());
+         setNovaCaracteristica((Boolean)true);
+    }
     
+    public void savarCaracteristica(){
+        if(getNovaCaracteristica()){
+            objeto.adicionarCaracteristica(caracteristica);
+        }
+       
+        UtilMensagens.mensagemInformacao("Alteração realizada com sucesso");
+    }
     
+    public void removerCaracteristica(int index){
+        objeto.removerCaracteristica(index);
+        //UtilMensagens.mensagemInformacao("Operação realizada com sucesso");
+    }
 }

@@ -20,4 +20,11 @@ public class ContratoDAO <T> extends DAOGenerico<Contrato> implements Serializab
         super();
         super.setClassePersistente(Contrato.class);
     }
+    
+    @Override
+    public Contrato getObjectById(Integer id) throws Exception {
+        Contrato  obj = (Contrato) super.getEm().find(super.getClassePersistente(), id);
+        obj.getListaCobrancas().size();
+        return obj;
+    } 
 }

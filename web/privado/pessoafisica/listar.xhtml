@@ -80,6 +80,10 @@
                                              id="btnExcluir"
                                              onclick="if (!confirm('Confirma a exclusão do objeto'))
                                                          return false"/>
+                            <p:commandButton value="Imprimir"
+                                             action="#{controlePessoaFisica.imprimir(obj.id)}"
+                                             ajax="false"
+                                             onclick="this.form.target='_blank';"/>
                         </div>
                     </p:column>
                 </p:dataTable>
@@ -197,8 +201,7 @@
                                                          icon="ui-icon-trash"
                                                          actionListener="#{controlePessoaFisica.removerTelefone(index)}"
                                                          process="btnRemoverTel"
-                                                         update="listaTel :formListagem:growl 
-                                                         :formEdicao"
+                                                         update="listaTel"
                                                          onclick="if (!confirm('Confirma a exclusão do telefone?'))
                                                                      return false" />
                                     </div>

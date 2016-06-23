@@ -6,7 +6,9 @@
 package br.edu.ifsul.controle;
 
 import br.edu.ifsul.dao.CaracteristicaDAO;
+import br.edu.ifsul.dao.ImovelDAO;
 import br.edu.ifsul.modelo.Caracteristica;
+import br.edu.ifsul.modelo.Imovel;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -22,6 +24,9 @@ public class ControleCaracteristica implements Serializable{
     @EJB
     private CaracteristicaDAO<Caracteristica> dao;
     private Caracteristica objeto;
+    
+    @EJB
+    private ImovelDAO<Imovel> daoImovel;
  
 
     public ControleCaracteristica() {
@@ -66,8 +71,6 @@ public class ControleCaracteristica implements Serializable{
             UtilMensagens.mensagemErro("Erro ao remover objeto: "+e.getMessage());
         }
     }
-            
-    
 
     public CaracteristicaDAO getDao() {
         return dao;
@@ -84,5 +87,11 @@ public class ControleCaracteristica implements Serializable{
     public void setObjeto(Caracteristica objeto) {
         this.objeto = objeto;
     }
+
+    public ImovelDAO<Imovel> getDaoImovel() {
+        return daoImovel;
+    }
+    
+    
 
 }

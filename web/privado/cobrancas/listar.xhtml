@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="titulo">Listagem de Cobranças</ui:define>
+        <ui:define name="conteudo">
+            <h:form id="formListagem" prependId="false">
+                <p:growl/>
+                <div align="center">
+                    <p:panelGrid columns="17">
+                        <p:outputLabel value="Ordem:"/>
+                        <p:selectOneMenu value="#{controleCobranca.dao.ordem}">
+                            <f:selectItem itemLabel="Numero" itemValue="cobrancaID.id"/>
+                            <f:selectItem itemLabel="Pessoa" itemValue="cobrancaID.contrato.pessoa.nome"/>                            
+                            <p:ajax update="listagem"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Filtro: "/>
+                        <p:inputText value="#{controleCobranca.dao.filtro}">
+                            <p:ajax event="keyup" update="listagem"/>
+                        </p:inputText>
+                        <p:outputLabel value="Filtrar por vencimento:"/>
+                        <p:selectBooleanCheckbox value="#{controleCobranca.dao.filtroVencimento}"   />
+                        <p:outputLabel value="Vencimento Inicial:"/>
+                        <p:calendar value="#{controleCobranca.dao.dataInicial}"
+                                    pattern="dd/MM/yyyy" mask="true" navigator="true"
+                                    locale="pt_BR">
+                            <f:converter converterId="converterCalendar"/>
+                        </p:calendar>
+                        <p:outputLabel value="Vencimento Final:"/>
+                        <p:calendar value="#{controleCobranca.dao.dataFinal}"
+                                    pattern="dd/MM/yyyy" mask="true" navigator="true"
+                                    locale="pt_BR">
+                            <f:converter converterId="converterCalendar"/>
+                        </p:calendar>                        
+                        <p:commandButton value="Filtrar" update="listagem"/>                       
+                    </p:panelGrid>
+                    <p:panelGrid columns="7">
+                        <p:outputLabel value="Máximo de objetos"/>
+                        <p:inputText value="#{controleCobranca.dao.maximoObjetos}" size="5">
+                            <p:ajax event="keyup" update="listagem"/>
+                        </p:inputText>
+                        <p:commandButton action="#{controleCobranca.dao.primeiro()}"
+                                         value="Primeiro" update="listagem"/>
+                        <p:commandButton action="#{controleCobranca.dao.anterior()}"
+                                         value="Anterior" update="listagem"/>
+                        <p:commandButton action="#{controleCobranca.dao.proximo()}"
+                                         value="Próximo" update="listagem"/>
+                        <p:commandButton action="#{controleCobranca.dao.ultimo()}"
+                                         value="Ultimo" update="listagem"/>                        
+                    </p:panelGrid>
+                </div>
+                <p:dataTable value="#{controleCobranca.dao.listaObjetos}" var="obj"
+                             id="listagem"
+                            >
+                    <f:facet name="header">
+                        <p:outputLabel value="Listagem de Parcela"/>
+                    </f:facet>
+                    <f:facet name="footer">
+                        <p:outputLabel value="#{controleCobranca.dao.mensagemNavegacao}"/>
+                    </f:facet>
+                    <p:column headerText="Numero">
+                        <p:outputLabel value="#{obj.cobrancaID.id}"/>
+                    </p:column>
+                    <p:column headerText="Pessoa">
+                        <p:outputLabel value="#{obj.cobrancaID.contrato.pessoa.nome}"/>
+                    </p:column>
+                    <p:column headerText="Valor">
+                        <p:outputLabel value="#{obj.valor}">
+                            <f:convertNumber pattern="R$ 0.00"/>
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Vencimento">
+                        <p:outputLabel value="#{obj.vencimento}">
+                            <f:converter converterId="converterCalendar"/>
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Valor Pago">
+                        <p:outputLabel value="#{obj.valorPagamento}">
+                            <f:convertNumber pattern="R$ 0.00"/>
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Data Pagamento">
+                        <p:outputLabel value="#{obj.dataPagamento}">
+                            <f:converter converterId="converterCalendar"/>
+                        </p:outputLabel>
+                    </p:column>     
+                    <p:column headerText="Pagar">
+                        <div align="center">
+                            <p:commandButton value="Pagar"
+                                             actionListener="#{controleCobranca.editar(obj.cobrancaID)}"
+                                             oncomplete="PF('dlg').show();"
+                                             update=":formPagamento" rendered="#{obj.dataPagamento == null}"/>
+                        </div>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </ui:define> 
+        <ui:define name="dialogos">
+            <p:dialog widgetVar="dlg" header="Informar pagamento"
+                      modal="true" resizable="false">
+                <h:form id="formPagamento">
+                    <p:growl/>
+                    <p:panelGrid columns="2">
+                        <f:facet name="footer">
+                            <div align="center">
+                                <p:commandButton value="Salvar Pagamento"
+                                                 actionListener="#{controleCobranca.salvarPagamento()}"
+                                                 oncomplete="PF('dlg').hide();"
+                                                 update=":formListagem :formPagamento"/>
+                            </div>
+                        </f:facet>
+                        <p:outputLabel value="Pessoa"/>
+                        <p:inputText value="#{controleCobranca.objeto.cobrancaID.contrato.pessoa.nome}"
+                                     readonly="true"/>
+                        <p:outputLabel value="Valor"/>
+                        <p:inputText value="#{controleCobranca.objeto.valor}" readonly="true"/>
+                        <p:outputLabel value="Vencimento"/>
+                        <p:inputText value="#{controleCobranca.objeto.vencimento}" readonly="true">
+                            <f:converter converterId="converterCalendar"/>                            
+                        </p:inputText>
+                        <p:outputLabel value="Valor Pagamento"/>
+                        <p:inputText value="#{controleCobranca.objeto.valorPagamento}"
+                                     size="12" maxlength="12"/>
+                        <p:outputLabel value="Data Pagamento"/>
+                        <p:calendar value="#{controleCobranca.objeto.dataPagamento}"
+                                    pattern="dd/MM/yyyy" mask="true"
+                                    locale="pt_BR" navigator="true">
+                            <f:converter converterId="converterCalendar"/>
+                        </p:calendar>                                                                                                                                    
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+        </ui:define>
+    </ui:composition>
+</html>
+

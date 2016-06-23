@@ -20,4 +20,11 @@ public class ImovelDAO <T> extends DAOGenerico<Imovel> implements Serializable{
         super();
         super.setClassePersistente(Imovel.class);
     }
+    
+    @Override
+    public Imovel getObjectById(Integer id) throws Exception {
+        Imovel  obj = (Imovel) super.getEm().find(super.getClassePersistente(), id);
+        obj.getCaracteristicas().size();
+        return obj;
+    } 
 }

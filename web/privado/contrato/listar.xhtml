@@ -9,7 +9,7 @@
         <ui:define name="titulo">Manutenção de Pessoas Fisica</ui:define>
         <ui:define name="conteudo">
             <h:form id="formListagem" prependId="false">
-                <p:growl/>
+                <p:growl id="growl"/>
                 <p:commandButton actionListener="#{controleContrato.novo()}" value="Novo Contrato"
                                  icon="ui-icon-plus"
                                  oncomplete="PF('dlg').show();"
@@ -84,72 +84,118 @@
 
         <ui:define name="dialogos">
             <p:dialog widgetVar="dlg" header="Edição"
-                      resizable="false" modal="true">
+                      resizable="false" modal="true" width="700">
                 <h:form id="formEdicao" prependId="false">
                     <p:growl/>
-                    <div align="center">
-                        <p:panelGrid columns="2">
-                            <f:facet name="footer">
-                                <div align="center">
-                                    <p:commandButton value="Salvar"
-                                                     icon="ui-icon-disk"
-                                                     actionListener="#{controleContrato.salvar()}"
-                                                     update=":formEdicao :formListagem"
-                                                     oncomplete="if(!args.validationFailed){PF('dlg').hide();}"/>
-                                </div>
-                            </f:facet>
-                            <p:outputLabel value="Número do contrato"/>
-                            <p:inputText value="#{controleContrato.objeto.id}"
-                                         size="5" readonly="true"/>
-                            
-                            <p:outputLabel value="Locatário" for="selectLocatario"/>
-                            <p:selectOneMenu value="#{controleContrato.objeto.pessoa}"
-                                             id="selectLocatario">
-                                <f:converter converterId="converterPessoa"/>
-                                <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
-                                <f:selectItems value="#{controleContrato.daoPessoa.listaTodos}"
-                                               var="p" itemLabel="#{p.nome}"/>
-                            </p:selectOneMenu>
 
-                            <p:outputLabel value="Imóvel" for="selectImovel"/>
-                            <p:selectOneMenu value="#{controleContrato.objeto.imovel}"
-                                             id="selectImovel">
-                                <f:converter converterId="converterImovel"/>
-                                <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
-                                <f:selectItems value="#{controleContrato.daoImovel.listaTodos}"
-                                               var="i" itemLabel="#{i.id}"/>
-                            </p:selectOneMenu>
-                            
-                            <p:outputLabel value="Data Inicio" for="txtDataI"/>
-                            <p:calendar value="#{controleContrato.objeto.data_inicio}"
-                                        id="txtDataI"
-                                        mask="true" pattern="dd/MM/yyyy" navigator="true">
-                                <f:converter converterId="converterCalendar"/>
-                            </p:calendar>
+                    <p:tabView id="tab">
+                        <p:tab title="Dados da principais">
+                            <div align="center">
+                                <p:panelGrid columns="2">
+                                    <f:facet name="footer">
+                                        <div align="center">
+                                            <p:commandButton value="Salvar"
+                                                             icon="ui-icon-disk"
+                                                             actionListener="#{controleContrato.salvar()}"
+                                                             update=":formEdicao :formListagem"
+                                                             oncomplete="if(!args.validationFailed){PF('dlg').hide();}"/>
+                                        </div>
+                                    </f:facet>
+                                    <p:outputLabel value="Número do contrato"/>
+                                    <p:inputText value="#{controleContrato.objeto.id}"
+                                                 size="5" readonly="true"/>
 
-                            <p:outputLabel value="Data Reajuste" for="txtDataR"/>
-                            <p:calendar value="#{controleContrato.objeto.data_reajuste}"
-                                        id="txtDataR"
-                                        mask="true" pattern="dd/MM/yyyy" navigator="true">
-                                <f:converter converterId="converterCalendar"/>
-                            </p:calendar>
+                                    <p:outputLabel value="Locatário" for="selectLocatario"/>
+                                    <p:selectOneMenu value="#{controleContrato.objeto.pessoa}"
+                                                     id="selectLocatario">
+                                        <f:converter converterId="converterPessoa"/>
+                                        <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
+                                        <f:selectItems value="#{controleContrato.daoPessoa.listaTodos}"
+                                                       var="p" itemLabel="#{p.nome}"/>
+                                    </p:selectOneMenu>
 
-                            <p:outputLabel value="Data Encerramento" for="txtDataE"/>
-                            <p:calendar value="#{controleContrato.objeto.data_encerramento}"
-                                        id="txtDataE"
-                                        mask="true" pattern="dd/MM/yyyy" navigator="true">
-                                <f:converter converterId="converterCalendar"/>
-                            </p:calendar>
+                                    <p:outputLabel value="Imóvel" for="selectImovel"/>
+                                    <p:selectOneMenu value="#{controleContrato.objeto.imovel}"
+                                                     id="selectImovel">
+                                        <f:converter converterId="converterImovel"/>
+                                        <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
+                                        <f:selectItems value="#{controleContrato.daoImovel.listaTodos}"
+                                                       var="i" itemLabel="#{i.id}"/>
+                                    </p:selectOneMenu>
 
-                            <p:outputLabel value="Observação" for="txtObs"/>
-                            <p:inputText value="#{controleContrato.objeto.observacao}"
-                                         size="100" maxlength="100" id="txtObs"/>
+                                    <p:outputLabel value="Data Inicio" for="txtDataI"/>
+                                    <p:calendar value="#{controleContrato.objeto.data_inicio}"
+                                                id="txtDataI"
+                                                mask="true" pattern="dd/MM/yyyy" navigator="true">
+                                        <f:converter converterId="converterCalendar"/>
+                                    </p:calendar>
 
-                            <p:outputLabel value="Valor aluguel" for="txtValor"/>
-                            <p:inputText value="#{controleContrato.objeto.aluguel}"
-                                         size="15" maxlength="15" id="txtValor"/>
-                        </p:panelGrid>
-                    </div>
+                                    <p:outputLabel value="Data Reajuste" for="txtDataR"/>
+                                    <p:calendar value="#{controleContrato.objeto.data_reajuste}"
+                                                id="txtDataR"
+                                                mask="true" pattern="dd/MM/yyyy" navigator="true">
+                                        <f:converter converterId="converterCalendar"/>
+                                    </p:calendar>
+
+                                    <p:outputLabel value="Data Encerramento" for="txtDataE"/>
+                                    <p:calendar value="#{controleContrato.objeto.data_encerramento}"
+                                                id="txtDataE"
+                                                mask="true" pattern="dd/MM/yyyy" navigator="true">
+                                        <f:converter converterId="converterCalendar"/>
+                                    </p:calendar>
+
+                                    <p:outputLabel value="Observação" for="txtObs"/>
+                                    <p:inputText value="#{controleContrato.objeto.observacao}"
+                                                 size="100" maxlength="100" id="txtObs"/>
+
+                                    <p:outputLabel value="Quantidade de cobranças" for="txtCob"/>
+                                    <p:inputText value="#{controleContrato.objeto.quantidade_cobrancas}"
+                                                 size="20" maxlength="20" id="txtCob"/>
+
+                                    <p:outputLabel value="Valor aluguel" for="txtValor"/>
+                                    <p:inputText value="#{controleContrato.objeto.aluguel}"
+                                                 size="15" maxlength="15" id="txtValor"/>
+                                </p:panelGrid>
+                            </div>
+                        </p:tab>
+                        <p:tab title="Cobranças">
+                            <p:dataTable id="listagemCobrancas"
+                                         value="#{controleContrato.objeto.listaCobrancas}"
+                                         var="par" emptyMessage="Nenhuma parcela gerar">
+                                <f:facet name="header">
+                                    <p:commandButton value="Gerar Cobranças"
+                                                     actionListener="#{controleContrato.gerarCobrancas()}"
+                                                     update="listagemCobrancas :formListagem:growl"/>
+                                </f:facet>
+                                <p:column headerText="Numero">
+                                    <p:outputLabel value="#{par.cobrancaID.id}"/>
+                                </p:column>
+                                <p:column headerText="Valor">
+                                    <p:outputLabel value="#{par.valor}">
+                                        <f:convertNumber pattern="R$ 0.00"/>
+                                    </p:outputLabel>
+                                </p:column>
+                                <p:column headerText="Vencimento">
+                                    <p:outputLabel value="#{par.vencimento}">
+                                        <f:converter converterId="converterCalendar"/>
+                                    </p:outputLabel>
+                                </p:column>
+                                <p:column headerText="Valor Pago">
+                                    <p:outputLabel value="#{par.valorPagamento}">
+                                        <f:convertNumber pattern="R$ 0.00"/>
+                                    </p:outputLabel>
+                                </p:column>
+                                <p:column headerText="Data Pagamento">
+                                    <p:outputLabel value="#{par.dataPagamento}">
+                                        <f:converter converterId="converterCalendar"/>
+                                    </p:outputLabel>
+                                </p:column>
+                                <p:outputLabel value="Observação" for="txtObs"/>
+                                <p:inputText value="#{par.observacao}"
+                                                 size="15" maxlength="15" id="txtObs"/>
+                            </p:dataTable>
+                        </p:tab>
+                    </p:tabView>
                 </h:form>
             </p:dialog>
         </ui:define>
