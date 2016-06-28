@@ -24,7 +24,9 @@ public class CaracteristicaDAO<T> extends DAOGenerico<Caracteristica> implements
     @Override
     public Caracteristica getObjectById(Integer id) throws Exception {
         Caracteristica  obj = (Caracteristica) super.getEm().find(super.getClassePersistente(), id);
-        obj.getImoveis().size();
+        obj.getCaracteristicas().size();
         return obj;
     } 
+    
+    
 }

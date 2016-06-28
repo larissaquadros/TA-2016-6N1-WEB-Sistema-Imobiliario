@@ -27,4 +27,10 @@ public class ImovelDAO <T> extends DAOGenerico<Imovel> implements Serializable{
         obj.getCaracteristicas().size();
         return obj;
     } 
+    
+    @Override
+    public void remove(Imovel obj) throws Exception {
+        Imovel objeto = super.getEm().find(Imovel.class, obj.getId());
+        super.getEm().remove(objeto);
+    }
 }
